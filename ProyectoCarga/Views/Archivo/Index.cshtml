@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ProyectoCarga.Models.Archivos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary" style="margin-top: 50px;">
+            <div class="panel-heading">
+                <h4>Lista de archivos</h4>
+            </div>
+            <div class="panel-body">
+                <a class="btn btn-success" href="@Url.Action("Subir", "Archivo")">Subir Archivo</a>
+                <hr />
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th style="width:100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombre</td>
+                                    <td>
+                                        <img src='~/Imagenes/@string.Concat(item.Extension.Replace(".", ""), ".png")' style="width:40px">
+                                        <img src="@Url.Content("~/Imagenes/" + item.Extension.Replace(".", "") + ".png")" style="width:40px">
+                                    </td>
+                                    <td>
+                                        <form action="@Url.Action("DescargarArchivo", "Archivo")" method="post">
+                                            <input type="hidden" value="@item.IdArchivo" name="IdArchivo" id="idArchivo"/>
+                                            <button class="btn btn-danger btn-sm" id="btnDescargar" type="submit">Descargar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        let btn = document.getElementById('btnDescargar');
+        let id = document.getElementById('idArchivo').value;
+
+        btn.addEventListener('click', (e) => {
+            //window.open("../Archivo/DescargarArchivo?IdArchivo=" + id, "_blank");
+            //window.open("../Archivo/Subir", "_blank");
+            /*fetch('/Archivo/DescargarArchivo?IdArchivo=' + id)
+                .then(response => response.blob())
+                .then(blob => {
+                    var file = window.URL.createObjectURL(blob);
+                    window.location.assign(file);
+                })*/
+        })
+    </script>
+} 
